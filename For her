@@ -1,0 +1,117 @@
+\version "2.24.0"
+
+\header {
+  title = "Sirli Skripka — Suite"
+  subtitle = "Motiv, Cho‘qqi va So‘nish"
+  composer = "Sizning romaningiz uchun original ohang"
+  poet = "“U bu musiqani sen uchun chalayapti.”"
+}
+
+\paper {
+  #(set-paper-size "a4")
+  top-margin = 10
+  bottom-margin = 10
+  left-margin = 12
+  right-margin = 12
+}
+
+\layout { ragged-last = ##t }
+
+% ====== UMUMIY BELGILAR ======
+rit = \markup \italic "rit."
+a_tempo = \markup \italic "a tempo"
+sulTasto = \markup \italic "sul tasto"
+conSord = \markup \italic "con sord."
+senzaSord = \markup \italic "senza sord."
+
+% ====== 1) ASOSIY MOTIV (A minor) ======
+mainMotif = \relative a' {
+  \key a \minor
+  \time 4/4
+  \tempo "Lento, espressivo" 4 = 60
+  \dynamicUp
+
+  % con sord. - tuman ichidan kelayotgan ohang
+  a4\p( c e2\< d4 c2\> )\! 
+  r4
+  a4\pp( c e2 d4\> c2 )\!
+  r2
+}
+
+% ====== 2) VARIATSIYA I — CHO‘QQI (CRESCENDO, “Qoya nolalari”) ======
+varCrescendo = \relative a' {
+  \key a \minor
+  \time 4/4
+  \tempo "Poco piu mosso" 4 = 72
+  \dynamicUp
+
+  % senza sord., ohang yaqinlashadi
+  % Sekin-asta bezaklar, kuchayish, aksentlar
+  a8(\mp c) e4 d8( c) a4 |
+  e'2\< e8( d) c( d) |
+  e4->\f d8( c) b( c) d4-> |
+  e2->\ff ~ e4 d8 c |
+
+  % "Qoya nolalari" — mayda bo‘linmalar bilan kuchli to‘lqin
+  a8 a16 a c8 c16 c e8-> e16 e d8 d16 d |
+  c4-> b8( c) d4-> e-> |
+  e2\fff ~ e4 r8 e |
+  d4-> c8 b a4-> a-> |
+  r2\fermata
+}
+
+% ====== 3) VARIATSIYA II — SO‘NISH (DIMINUENDO, “Tuman ichida yo‘qolish”) ======
+varDiminuendo = \relative a' {
+  \key a \minor
+  \time 4/4
+  \tempo "Adagio, sospeso" 4 = 52
+  \dynamicUp
+
+  % con sord., sul tasto — silliq, havodagi ohang
+  a2\p^\conSord^\sulTasto( c2) |
+  e1\<( |
+  d2 c2\>)\! |
+  r4 r8 a\ppp( c4) r8 e( |
+  d2~ d8) r r4 |
+  c1\ppp^\rit \fermata
+}
+
+% ====== 4) CODA — “Uning nidosi havoga singadi” ======
+codaFade = \relative a' {
+  \key a \minor
+  \time 3/4
+  \tempo "Lentissimo, quasi nulla" 4 = 36
+  \dynamicUp
+
+  a4\pp( c e) |
+  d4( c2) |
+  a2.\ppp^\rit \fermata
+  \bar "|."
+}
+
+% ====== PARTITURA ======
+\score {
+  \new Staff \with { instrumentName = "Violin" } <<
+    \clef treble
+    \mainMotif
+  >>
+  \layout { }
+}
+
+\score {
+  \new Staff \with { instrumentName = "Violin" } <<
+    \clef treble
+    \varCrescendo
+  >>
+  \layout { }
+}
+
+\score {
+  \new Staff \with { instrumentName = "Violin" } <<
+    \clef treble
+    \varDiminuendo
+    \codaFade
+  >>
+  \layout { }
+  \midi { \tempo 4 = 52 }
+}
